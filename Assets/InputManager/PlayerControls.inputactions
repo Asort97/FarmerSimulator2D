@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SwitchGrains",
+                    "name": "SwitchSeeds",
                     "type": "Button",
                     "id": "09ef2ad2-cea2-44de-bb10-e79dc2900280",
                     "expectedControlType": "Button",
@@ -147,7 +147,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SwitchGrains",
+                    "action": "SwitchSeeds",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

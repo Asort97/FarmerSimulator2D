@@ -64,7 +64,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SwitchGrains"",
+                    ""name"": ""SwitchSeeds"",
                     ""type"": ""Button"",
                     ""id"": ""09ef2ad2-cea2-44de-bb10-e79dc2900280"",
                     ""expectedControlType"": ""Button"",
@@ -169,7 +169,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SwitchGrains"",
+                    ""action"": ""SwitchSeeds"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -184,7 +184,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
         m_Player_SkipDay = m_Player.FindAction("SkipDay", throwIfNotFound: true);
         m_Player_SwitchMode = m_Player.FindAction("SwitchMode", throwIfNotFound: true);
-        m_Player_SwitchGrains = m_Player.FindAction("SwitchGrains", throwIfNotFound: true);
+        m_Player_SwitchSeeds = m_Player.FindAction("SwitchSeeds", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -248,7 +248,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Action;
     private readonly InputAction m_Player_SkipDay;
     private readonly InputAction m_Player_SwitchMode;
-    private readonly InputAction m_Player_SwitchGrains;
+    private readonly InputAction m_Player_SwitchSeeds;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -257,7 +257,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Action => m_Wrapper.m_Player_Action;
         public InputAction @SkipDay => m_Wrapper.m_Player_SkipDay;
         public InputAction @SwitchMode => m_Wrapper.m_Player_SwitchMode;
-        public InputAction @SwitchGrains => m_Wrapper.m_Player_SwitchGrains;
+        public InputAction @SwitchSeeds => m_Wrapper.m_Player_SwitchSeeds;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -279,9 +279,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @SwitchMode.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchMode;
                 @SwitchMode.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchMode;
                 @SwitchMode.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchMode;
-                @SwitchGrains.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchGrains;
-                @SwitchGrains.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchGrains;
-                @SwitchGrains.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchGrains;
+                @SwitchSeeds.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSeeds;
+                @SwitchSeeds.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSeeds;
+                @SwitchSeeds.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSeeds;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -298,9 +298,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @SwitchMode.started += instance.OnSwitchMode;
                 @SwitchMode.performed += instance.OnSwitchMode;
                 @SwitchMode.canceled += instance.OnSwitchMode;
-                @SwitchGrains.started += instance.OnSwitchGrains;
-                @SwitchGrains.performed += instance.OnSwitchGrains;
-                @SwitchGrains.canceled += instance.OnSwitchGrains;
+                @SwitchSeeds.started += instance.OnSwitchSeeds;
+                @SwitchSeeds.performed += instance.OnSwitchSeeds;
+                @SwitchSeeds.canceled += instance.OnSwitchSeeds;
             }
         }
     }
@@ -311,6 +311,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnAction(InputAction.CallbackContext context);
         void OnSkipDay(InputAction.CallbackContext context);
         void OnSwitchMode(InputAction.CallbackContext context);
-        void OnSwitchGrains(InputAction.CallbackContext context);
+        void OnSwitchSeeds(InputAction.CallbackContext context);
     }
 }

@@ -9,13 +9,10 @@ public class CellSelector : MonoBehaviour
     [SerializeField] private Transform pointPos;
     private Vector3 pos;
 
-    private void Update()
-    {
-        SelectRaduis();
-    }
-    private void SelectRaduis()
+    public Collider2D[] SelectorRaduis()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(pointPos.position, actionRaduis, layerMask);
+        return colliders;
     }
     private void OnDrawGizmos()
     {

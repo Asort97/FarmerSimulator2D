@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ModeController : MonoBehaviour
 {
-    [SerializeField] private ModeStates currentState;
+    [HideInInspector] public ModeStates currentState;
     private int idMode;
-    private enum ModeStates
+    public enum ModeStates
     {
         Planting,
         Watering,
@@ -40,7 +40,8 @@ public class ModeController : MonoBehaviour
                 currentState = ModeStates.Planting;
                 break;
         }
- 
+
+        Debug.Log($"State >>>" + currentState);
     }
 
 }

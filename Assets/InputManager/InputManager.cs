@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class InputManager : MonoBehaviour
         }
     }
     private PlayerControls playerControls;
-
+    private bool actionButtonIsHold;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -25,13 +25,28 @@ public class InputManager : MonoBehaviour
 
         playerControls = new PlayerControls();
     }
+    
     private void OnEnable()
     {
         playerControls.Enable();
+
+        playerControls.Player.Action.started += OnStartHoldActionButton;
+        playerControls.Player.Action.canceled += OnEndHoldActionButton;
     }
     private void OnDisable()
     {
         playerControls.Disable();
+
+        playerControls.Player.Action.started -= OnStartHoldActionButton;
+        playerControls.Player.Action.canceled -= OnEndHoldActionButton;
+    }
+    private void OnStartHoldActionButton(InputAction.CallbackContext callbackContext)
+    {
+        actionButtonIsHold = true;
+    }
+    private void OnEndHoldActionButton(InputAction.CallbackContext callbackContext)
+    {
+        actionButtonIsHold = false;
     }
     public Vector2 GetPlayerPosition()
     {
@@ -39,7 +54,7 @@ public class InputManager : MonoBehaviour
     }
     public bool GetUseTrigger()
     {
-        return playerControls.Player.Action.triggered;
+        return actionButtonIsHold;
     }
 
     public bool GetSwitchModeTrigger()
@@ -47,9 +62,9 @@ public class InputManager : MonoBehaviour
         return playerControls.Player.SwitchMode.triggered;
     }
 
-    public bool GetSwitchGrainsTriggger()
+    public bool GetSwitchSeedsTrigger()
     {
-        return playerControls.Player.SwitchGrains.triggered;
+        return playerControls.Player.SwitchSeeds.triggered;
     }
     public bool GetSkipDayTrigger()
     {
