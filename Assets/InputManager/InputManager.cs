@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
@@ -12,6 +11,7 @@ public class InputManager : MonoBehaviour
     }
     private PlayerControls playerControls;
     private bool actionButtonIsHold;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -33,6 +33,7 @@ public class InputManager : MonoBehaviour
         playerControls.Player.Action.started += OnStartHoldActionButton;
         playerControls.Player.Action.canceled += OnEndHoldActionButton;
     }
+
     private void OnDisable()
     {
         playerControls.Disable();
@@ -40,18 +41,22 @@ public class InputManager : MonoBehaviour
         playerControls.Player.Action.started -= OnStartHoldActionButton;
         playerControls.Player.Action.canceled -= OnEndHoldActionButton;
     }
+
     private void OnStartHoldActionButton(InputAction.CallbackContext callbackContext)
     {
         actionButtonIsHold = true;
     }
+    
     private void OnEndHoldActionButton(InputAction.CallbackContext callbackContext)
     {
         actionButtonIsHold = false;
     }
+
     public Vector2 GetPlayerPosition()
     {
         return playerControls.Player.Movement.ReadValue<Vector2>();
     }
+
     public bool GetUseTrigger()
     {
         return actionButtonIsHold;
@@ -66,6 +71,7 @@ public class InputManager : MonoBehaviour
     {
         return playerControls.Player.SwitchSeeds.triggered;
     }
+
     public bool GetSkipDayTrigger()
     {
         return playerControls.Player.SkipDay.triggered;

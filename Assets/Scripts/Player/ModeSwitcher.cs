@@ -13,6 +13,7 @@ public class ModeSwitcher : MonoBehaviour
         Collecting,
         Destroying
     }
+    
     public void SwitchMode()
     {
         idMode++;

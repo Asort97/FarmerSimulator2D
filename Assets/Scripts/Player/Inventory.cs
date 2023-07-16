@@ -6,32 +6,54 @@ public class Inventory : MonoBehaviour
 {
     public List<SeedSO> AllSeeds = new List<SeedSO>();
     public List<FruitSO> AllFruits = new List<FruitSO>();
+    private PlayerStats playerStats;
+
+    private void Start()
+    {
+        playerStats = PlayerStats.Instance;
+    }
+
     private void OnEnable()
     {
-        SeedShopButton.OnBuyingSeed += AddItem; 
+        SeedShopButton.OnBuyingSeed += AddItem;
+        SoldShopButton.OnSoldFruit += DeleteItem; 
         GardenBed.OnCollectFruits += AddItem;
     }
+
     private void OnDisable()
     {
+        SoldShopButton.OnSoldFruit -= DeleteItem; 
         SeedShopButton.OnBuyingSeed -= AddItem; 
         GardenBed.OnCollectFruits -= AddItem;
     }
 
-    public void AddItem(FruitSO fruit)
+    private void AddItem(FruitSO fruit)
     {
         AllFruits.Add(fruit);
     }
-    public void AddItem(SeedSO seed)
+
+    private void AddItem(SeedSO seed, int price)
     {
-        AllSeeds.Add(seed);
+        if (playerStats.TotalMoney >= price)
+        {
+            playerStats.TotalMoney -= price;
+            AllSeeds.Add(seed);
+        }
     }
     
     public void DeleteItem(SeedSO seed)
     {
         AllSeeds.Remove(seed);
     }
-    public void DeleteItem(FruitSO fruit)
+
+    public void DeleteItem(FruitSO fruit, int soldPrice)
     {
-        AllFruits.Remove(fruit);
+        int id = AllFruits.IndexOf(fruit);
+
+        if (id != -1)
+        {
+            playerStats.TotalMoney += soldPrice;
+            AllFruits.Remove(fruit);
+        }
     }
 }

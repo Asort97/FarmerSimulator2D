@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -36,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
         SetPlayerStats();
     }
+
     private void SetPlayerStats()
     {
         timeToCollect = playerStats.TimeToCollect;
@@ -43,6 +42,7 @@ public class PlayerController : MonoBehaviour
         timeToDestroy = playerStats.TimeToDestroy;
         timeToWater = playerStats.TimeToWater;
     }
+
     private void Update()
     {
         Movement();
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         SkipDay();
         OnAction();
     }
+
     private void Movement()
     {
         Vector2 move = new Vector2(inputManager.GetPlayerPosition().x, inputManager.GetPlayerPosition().y);
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
             rb.rotation = angle;     
         }
     }
+
     private void OnAction() 
     {
         if(inputManager.GetUseTrigger() && cellSelector.SelectorRaduis().Length != 0)
@@ -84,6 +86,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     private void StartPlanting()
     {
         int id = inventory.AllSeeds.IndexOf(seedSwitcher.SelectedSeed);
@@ -105,6 +108,7 @@ public class PlayerController : MonoBehaviour
             }            
         }
     }
+
     private void StartDestroying()
     {
         if (timeToDestroy <= 0f)
@@ -120,6 +124,7 @@ public class PlayerController : MonoBehaviour
             timeToDestroy -= Time.deltaTime;
         }
     }
+
     private void StartCollecting()
     {
         if (timeToCollect <= 0f)
@@ -138,6 +143,7 @@ public class PlayerController : MonoBehaviour
             timeToCollect -= Time.deltaTime;
         }
     }
+
     private void StartWatering()
     {
         if (timeToWater <= 0f)

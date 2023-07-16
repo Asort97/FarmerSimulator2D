@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
@@ -12,8 +10,10 @@ public class PlayerStats : MonoBehaviour
         }
     }
     private float experienceBar;
+    public float ActionRaduis;
     public int TotalMoney;
-    public float Level;
+    public int Level;
+    public int InstrumentLevel;
     public float Stamina;
     public float TimeToPlant;
     public float TimeToCollect;
@@ -31,14 +31,17 @@ public class PlayerStats : MonoBehaviour
             instance = this;
         }
     }
+
     private void OnEnable()
     {
         PlayerController.OnCompletedAction += AddExperience;
     }
+
     private void OnDisable()
     {
         PlayerController.OnCompletedAction -= AddExperience;
     }
+
     private void AddExperience(int exp)
     {
         experienceBar += exp;
@@ -48,7 +51,7 @@ public class PlayerStats : MonoBehaviour
             UpdateLevel();
         }
     }
-    
+
     private void UpdateLevel()
     {
         Level++;
@@ -58,4 +61,9 @@ public class PlayerStats : MonoBehaviour
         TimeToPlant -= 0.1f;
         TimeToWater -= 0.1f;
     }
+    private void UpgradeInstruments()
+    {
+        InstrumentLevel++;
+    }
+
 }

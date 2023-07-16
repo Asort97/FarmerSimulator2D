@@ -8,6 +8,8 @@ public class SeedSO : ScriptableObject
         public Sprite stateSprite;
         public int stateDay;
     }
+    
+    public Sprite OrganicTrash;
     public FruitSO ResultFruit;
     public int MinCollectableFruits;
     public int AverageDaysToGrow;

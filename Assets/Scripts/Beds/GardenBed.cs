@@ -9,13 +9,15 @@ public class GardenBed : MonoBehaviour
     [SerializeField] private SeedSO currentSeed;
     [SerializeField] private SpriteRenderer seedSprite;
     [SerializeField] private SpriteRenderer bedSprite;
+    private bool isTrash;
     private bool isWatered = false;
     private bool isCollectable;
     private int daysWithoutWatering = 0;
     private int dayAfterPlanting = 0;
     private float Durability = 4f;
+    private bool isAlreadyGrown;
     public bool IsPlanted;
-
+    
     private void OnEnable()
     {
         DaysManager.OnSkipDay += OnNextDay;
@@ -34,16 +36,22 @@ public class GardenBed : MonoBehaviour
 
             bedSprite.color = new Color(255,255,255);
 
-            foreach (var state in currentSeed.StatesSeedSprites)
+            if(!isAlreadyGrown)
             {
-                if (dayAfterPlanting == state.stateDay)
+                foreach (var state in currentSeed.StatesSeedSprites)
                 {
-                    seedSprite.sprite = state.stateSprite;
-                }
-            }       
-
-            if (dayAfterPlanting == currentSeed.AverageDaysToGrow)
+                    if (dayAfterPlanting == state.stateDay)
+                    {
+                        seedSprite.sprite = state.stateSprite;
+                    }
+                }                  
+            }
+     
+            if (dayAfterPlanting % currentSeed.AverageDaysToGrow == 0)
             {
+                seedSprite.sprite = currentSeed.StatesSeedSprites[3].stateSprite;
+            
+                isAlreadyGrown = true;
                 isCollectable = true;
             }
 
@@ -60,9 +68,9 @@ public class GardenBed : MonoBehaviour
             {
                 daysWithoutWatering = 0;
             }
-
-            isWatered = false;
         }
+
+        isWatered = false;
     }
 
     public void PlantingSeed(SeedSO seed) // Посадить
@@ -83,23 +91,51 @@ public class GardenBed : MonoBehaviour
         isWatered = true;
         bedSprite.color = Color.gray;
     }
+
     public void DestroySeed() // Превратить в мусор
     {
         dayAfterPlanting = 0;
-        daysWithoutWatering = 0;        
+        daysWithoutWatering = 0;
 
         isWatered = false;
         isCollectable = false;
-        IsPlanted = false;
+
+
+        if (!isTrash)
+        {
+            seedSprite.sprite = currentSeed.OrganicTrash;
+        }        
+        else
+        {
+            seedSprite.sprite = null;
+            IsPlanted = false;
+            isTrash = false;
+        }
+
         currentSeed = null;
-        seedSprite.sprite = null;
+        isTrash = true;
     }
+
     public void CollectFruits() // Собрать все
     {
         if (isCollectable)
         {
             OnCollectFruits?.Invoke(currentSeed.ResultFruit);
-            DestroySeed();
+
+            if(currentSeed.IsOneYear)
+            {
+                DestroySeed();
+            }
+            else
+            {
+                dayAfterPlanting = 0;
+                daysWithoutWatering = 0;
+
+                isWatered = false;
+                isCollectable = false;
+
+                seedSprite.sprite = currentSeed.StatesSeedSprites[2].stateSprite;            
+            }
         }
     }
 
