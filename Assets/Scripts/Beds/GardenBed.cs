@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GardenBed : MonoBehaviour
 {
+    public static Action<FruitSO> OnCollectFruits;
     [SerializeField] private SeedSO currentSeed;
     [SerializeField] private SpriteRenderer seedSprite;
     [SerializeField] private SpriteRenderer bedSprite;
@@ -94,6 +96,11 @@ public class GardenBed : MonoBehaviour
     }
     public void CollectFruits() // Собрать все
     {
+        if (isCollectable)
+        {
+            OnCollectFruits?.Invoke(currentSeed.ResultFruit);
+            DestroySeed();
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)

@@ -5,6 +5,7 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+    public static Action<int> OnCompletedAction;
     [SerializeField] private float speedMove;
     private PlayerStats playerStats;
     private CellSelector cellSelector;
@@ -24,7 +25,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponentInChildren<Rigidbody2D>();
 
         inventory = FindObjectOfType<Inventory>();
-        playerStats = GetComponent<PlayerStats>();
         cellSelector = GetComponent<CellSelector>();
         modeSwitcher = GetComponent<ModeSwitcher>();
         seedSwitcher = GetComponent<SeedSwitcher>();
@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
         daysManager = FindObjectOfType<DaysManager>();
 
         inputManager = InputManager.Instance;
+        playerStats = PlayerStats.Instance;
 
         SetPlayerStats();
     }
@@ -92,7 +93,9 @@ public class PlayerController : MonoBehaviour
             if (timeToPlant <= 0f)
             {
                 cellSelector.SelectorClosestBed(modeSwitcher.currentState).GetComponent<GardenBed>().PlantingSeed(seedSwitcher.SelectedSeed);
-                inventory.DeleteSeed(seedSwitcher.SelectedSeed);
+                inventory.DeleteItem(seedSwitcher.SelectedSeed);
+                
+                OnCompletedAction?.Invoke(10);
                 
                 timeToPlant = playerStats.TimeToPlant;
             }
@@ -107,7 +110,10 @@ public class PlayerController : MonoBehaviour
         if (timeToDestroy <= 0f)
         {
             cellSelector.SelectorClosestBed(modeSwitcher.currentState).GetComponent<GardenBed>().DestroySeed();
+
             timeToDestroy = playerStats.TimeToDestroy;
+
+            OnCompletedAction?.Invoke(2);
         }
         else
         {
@@ -121,7 +127,10 @@ public class PlayerController : MonoBehaviour
             foreach (var bed in cellSelector.SelectorRaduis())
             {
                 bed.GetComponent<GardenBed>().CollectFruits();
+
                 timeToCollect = playerStats.TimeToCollect;
+
+                OnCompletedAction?.Invoke(20);
             }
         }
         else
@@ -137,17 +146,14 @@ public class PlayerController : MonoBehaviour
             {
                 bed.GetComponent<GardenBed>().WateringSeed();
                 timeToWater = playerStats.TimeToWater;
+
+                OnCompletedAction?.Invoke(5);
             }
         }
         else
         {
             timeToWater -= Time.deltaTime;
         }
-    }
-
-    private void AddFruits()
-    {
-
     }
 
     private void SwitchMode()

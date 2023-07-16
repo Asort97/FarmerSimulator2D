@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a95791e3ba2e524fb341c16e02a94b0, type: 3}
   m_Name: Corn
   m_EditorClassIdentifier: 
+  ResultFruit: {fileID: 11400000, guid: a85072788f2129b40acd0872f1ac8b31, type: 2}
   MinCollectableFruits: 1
   AverageDaysToGrow: 10
   DaysToWither: 2
