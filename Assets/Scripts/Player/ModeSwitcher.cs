@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 public class ModeSwitcher : MonoBehaviour
 {
+    public static Action<string> OnSwitchMode;
     [HideInInspector] public ModeStates currentState;
     private int idMode;
     public enum ModeStates
@@ -27,18 +26,23 @@ public class ModeSwitcher : MonoBehaviour
         {
             case 0:
                 currentState = ModeStates.Planting;
+                OnSwitchMode?.Invoke("Planting");
                 break;
             case 1:
                 currentState = ModeStates.Collecting;
+                OnSwitchMode?.Invoke("Collecting");
                 break;
             case 2:
                 currentState = ModeStates.Watering;
+                OnSwitchMode?.Invoke("Watering");
                 break;
             case 3:
                 currentState = ModeStates.Destroying;
+                OnSwitchMode?.Invoke("Destroying");
                 break;
             default:
                 currentState = ModeStates.Planting;
+                OnSwitchMode?.Invoke("Planting");
                 break;
         }
 

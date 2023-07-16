@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e1a5035280fa3246b6a06c8507f7e24, type: 3}
   m_Name: Strawberry
   m_EditorClassIdentifier: 
-  NameId: strawberry
+  NameId: Strawberry
   Price: 5

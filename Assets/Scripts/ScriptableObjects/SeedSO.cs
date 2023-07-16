@@ -8,7 +8,7 @@ public class SeedSO : ScriptableObject
         public Sprite stateSprite;
         public int stateDay;
     }
-    
+    public string NameId;
     public Sprite OrganicTrash;
     public FruitSO ResultFruit;
     public int MinCollectableFruits;

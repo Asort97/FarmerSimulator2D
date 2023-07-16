@@ -14,13 +14,16 @@ public class InstrumentShop : MonoBehaviour
     {
         playerStats = PlayerStats.Instance;
         newLevelButton = GetComponent<Button>();    
+
+        newLevelButton.onClick.AddListener(UpgradeLVL);
     }
     private void UpgradeLVL()
     {
         if (playerStats.TotalMoney >= priceUpgradeLevel && playerStats.InstrumentLevel < 3)
         {
             OnUpgradeInstruments?.Invoke();
-            playerStats.TotalMoney -= priceUpgradeLevel;
+
+            playerStats.AddMoney(-priceUpgradeLevel);
         }
     }
 }

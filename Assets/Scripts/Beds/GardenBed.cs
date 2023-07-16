@@ -28,13 +28,11 @@ public class GardenBed : MonoBehaviour
         DaysManager.OnSkipDay -= OnNextDay;
     }
 
-    private void OnNextDay()
+    private void OnNextDay(int day)
     {
         if(currentSeed != null)
         {
             dayAfterPlanting++;
-
-            bedSprite.color = new Color(255,255,255);
 
             if(!isAlreadyGrown)
             {
@@ -71,6 +69,7 @@ public class GardenBed : MonoBehaviour
         }
 
         isWatered = false;
+        bedSprite.color = new Color(255,255,255);
     }
 
     public void PlantingSeed(SeedSO seed) // Посадить

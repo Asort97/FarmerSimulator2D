@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnAction() 
     {
-        if(inputManager.GetUseTrigger() && cellSelector.SelectorRaduis().Length != 0)
+        if(inputManager.GetUseTrigger() && cellSelector.SelectorRaduis().Length != 0 && playerStats.Stamina >= 0f)
         {
             switch (modeSwitcher.currentState)
             {
