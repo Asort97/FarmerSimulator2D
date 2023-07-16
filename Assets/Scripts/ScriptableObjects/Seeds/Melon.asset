@@ -16,7 +16,7 @@ MonoBehaviour:
   OrganicTrash: {fileID: 21300000, guid: 558834bafc2dec243bd45694434ce9b5, type: 3}
   ResultFruit: {fileID: 11400000, guid: fe639074e03e8b2499f19e1ddefc61d6, type: 2}
   MinCollectableFruits: 1
-  AverageDaysToGrow: 10
+  AverageDaysToGrow: 6
   DaysToWither: 2
   IsOneYear: 1
   StatesSeedSprites:
