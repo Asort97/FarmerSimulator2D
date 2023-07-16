@@ -6,12 +6,13 @@ using System;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speedMove;
-    [SerializeField] private SeedSO testSeed;
     private PlayerStats playerStats;
     private CellSelector cellSelector;
     private DaysManager daysManager;
+    private Inventory inventory;
     private Rigidbody2D rb;
-    private ModeController modeController;
+    private ModeSwitcher modeSwitcher;
+    private SeedSwitcher seedSwitcher;
     private InputManager inputManager;
     private float timeToPlant;
     private float timeToWater;
@@ -22,9 +23,11 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponentInChildren<Rigidbody2D>();
 
+        inventory = FindObjectOfType<Inventory>();
         playerStats = GetComponent<PlayerStats>();
         cellSelector = GetComponent<CellSelector>();
-        modeController = GetComponent<ModeController>();
+        modeSwitcher = GetComponent<ModeSwitcher>();
+        seedSwitcher = GetComponent<SeedSwitcher>();
 
         daysManager = FindObjectOfType<DaysManager>();
 
@@ -43,6 +46,7 @@ public class PlayerController : MonoBehaviour
     {
         Movement();
         SwitchMode();
+        SwitchSeeds();
         SkipDay();
         OnAction();
     }
@@ -62,54 +66,55 @@ public class PlayerController : MonoBehaviour
     {
         if(inputManager.GetUseTrigger() && cellSelector.SelectorRaduis().Length != 0)
         {
-            switch (modeController.currentState)
+            switch (modeSwitcher.currentState)
             {
-                case ModeController.ModeStates.Planting:
-                    SetPlanting();
+                case ModeSwitcher.ModeStates.Planting:
+                    StartPlanting();
                     break;
-                case ModeController.ModeStates.Collecting:
-                    SetCollecting();
+                case ModeSwitcher.ModeStates.Collecting:
+                    StartCollecting();
                     break;
-                case ModeController.ModeStates.Destroying:
-                    SetDestroying();
+                case ModeSwitcher.ModeStates.Destroying:
+                    StartDestroying();
                     break;
-                case ModeController.ModeStates.Watering:
-                    SetWatering();
+                case ModeSwitcher.ModeStates.Watering:
+                    StartWatering();
                     break;
             }
         }
     }
-    private void SetPlanting()
+    private void StartPlanting()
     {
-        if (timeToPlant <= 0f)
+        int id = inventory.AllSeeds.IndexOf(seedSwitcher.SelectedSeed);
+
+        if (id != -1)
         {
-            foreach (var bed in cellSelector.SelectorRaduis())
+            if (timeToPlant <= 0f)
             {
-                bed.GetComponent<GardenBed>().PlantingSeed(testSeed);
+                cellSelector.SelectorClosestBed(modeSwitcher.currentState).GetComponent<GardenBed>().PlantingSeed(seedSwitcher.SelectedSeed);
+                inventory.DeleteSeed(seedSwitcher.SelectedSeed);
+                
                 timeToPlant = playerStats.TimeToPlant;
             }
-        }
-        else
-        {
-            timeToPlant -= Time.deltaTime;
+            else
+            {
+                timeToPlant -= Time.deltaTime;
+            }            
         }
     }
-    private void SetDestroying()
+    private void StartDestroying()
     {
         if (timeToDestroy <= 0f)
         {
-            foreach (var bed in cellSelector.SelectorRaduis())
-            {
-                bed.GetComponent<GardenBed>().DestroySeed();
-                timeToDestroy = playerStats.TimeToDestroy;
-            }
+            cellSelector.SelectorClosestBed(modeSwitcher.currentState).GetComponent<GardenBed>().DestroySeed();
+            timeToDestroy = playerStats.TimeToDestroy;
         }
         else
         {
             timeToDestroy -= Time.deltaTime;
         }
     }
-    private void SetCollecting()
+    private void StartCollecting()
     {
         if (timeToCollect <= 0f)
         {
@@ -124,7 +129,7 @@ public class PlayerController : MonoBehaviour
             timeToCollect -= Time.deltaTime;
         }
     }
-    private void SetWatering()
+    private void StartWatering()
     {
         if (timeToWater <= 0f)
         {
@@ -140,20 +145,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void AddFruits()
+    {
+
+    }
+
     private void SwitchMode()
     {
         if (inputManager.GetSwitchModeTrigger()) 
         {
-            modeController.SwitchMode();
+            modeSwitcher.SwitchMode();
         }
     }
+
     private void SwitchSeeds()
     {
         if(inputManager.GetSwitchSeedsTrigger())
         {
-
+            seedSwitcher.SwitchSeed();
         }
     }
+
     private void SkipDay()
     {
         if (inputManager.GetSkipDayTrigger())
@@ -161,4 +173,5 @@ public class PlayerController : MonoBehaviour
             daysManager.SkipDay();
         }
     }
+
 }

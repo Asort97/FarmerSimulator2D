@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ModeController : MonoBehaviour
+using System;
+public class ModeSwitcher : MonoBehaviour
 {
     [HideInInspector] public ModeStates currentState;
     private int idMode;
@@ -17,7 +17,7 @@ public class ModeController : MonoBehaviour
     {
         idMode++;
 
-        if (idMode == 4)
+        if (idMode == Enum.GetNames(typeof(ModeStates)).Length)
         {
             idMode = 0;
         }       

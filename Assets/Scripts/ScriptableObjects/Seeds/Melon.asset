@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a95791e3ba2e524fb341c16e02a94b0, type: 3}
-  m_Name: Corn
+  m_Name: Melon
   m_EditorClassIdentifier: 
   MinCollectableFruits: 1
   AverageDaysToGrow: 10
   DaysToWither: 2
   IsOneYear: 1
   StatesSeedSprites:
-  - stateSprite: {fileID: 21300000, guid: 65c0d0a426ba3ab48ba24488d75d20d6, type: 3}
+  - stateSprite: {fileID: 21300000, guid: 0bf8df02dd3ef1945a0e80a40bb30bf5, type: 3}
     stateDay: 0
-  - stateSprite: {fileID: 21300000, guid: fe46d491e7560a844a42c74121872656, type: 3}
+  - stateSprite: {fileID: 21300000, guid: 546a57518fd10a34e8425f4af75d3ce7, type: 3}
     stateDay: 3
-  - stateSprite: {fileID: 21300000, guid: de9ef964e15814144b770fcd9d0e3958, type: 3}
+  - stateSprite: {fileID: 21300000, guid: 376864dd974ec6d409b3dce793a4c690, type: 3}
     stateDay: 6
-  - stateSprite: {fileID: 21300000, guid: 95637223febe18e4f9ca1ba8837b9963, type: 3}
+  - stateSprite: {fileID: 21300000, guid: 98daad4502b73964b8604bd8da8e7725, type: 3}
     stateDay: 10
